@@ -18,7 +18,7 @@ export const getReceiverSocketId = (receiverId) =>{
 
 const userSocketMap = {} //{userId: socketId}
 
-socket.on("disconnect",() => {
+io.on("disconnect",() => {
     console.log("user disconnected", socket.id)
     delete userSocketMap[userId]
     io.emit("getOnlineUsers", Object.keys(userSocketMap))
