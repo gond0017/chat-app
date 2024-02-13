@@ -11,12 +11,18 @@ const io = new Server(server,{
         methods: ["GET", "POST"]
     }
 })
-
+console.log('test')
 export const getReceiverSocketId = (receiverId) =>{
     return userSocketMap[receiverId]
 }
 
 const userSocketMap = {} //{userId: socketId}
+
+socket.on("disconnect",() => {
+    console.log("user disconnected", socket.id)
+    delete userSocketMap[userId]
+    io.emit("getOnlineUsers", Object.keys(userSocketMap))
+})
 
 io.on('connection', (socket) => {
     console.log("a user connected", socket.id)
@@ -27,14 +33,7 @@ io.on('connection', (socket) => {
     //io.emit() is used to send events to all the clients
     io.emit("getOnlineUsers", Object.keys(userSocketMap))
 
-    socket.on("disconnect",() => {
-        console.log("user disconnected", socket.id)
-        delete userSocketMap[userId]
-        io.emit("getOnlineUsers", Object.keys(userSocketMap))
-    })
-    socket.on('connect_error', function(err) {
-        console.log("Errorr", err.message)
-    })
+   
 })
 
 export {app, io, server}
