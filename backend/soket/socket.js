@@ -32,10 +32,9 @@ io.on('connection', (socket) => {
         delete userSocketMap[userId]
         io.emit("getOnlineUsers", Object.keys(userSocketMap))
     })
+    socket.on('connect_error', function(err) {
+        console.log("Errorr", err.message)
+    })
 })
-
-socket.on('connect_error', function(err) {
-    console.log("Errorr", err.message)
-});
 
 export {app, io, server}
