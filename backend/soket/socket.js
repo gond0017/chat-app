@@ -7,7 +7,7 @@ const app = express()
 const server = http.createServer(app)
 const io = new Server(server,{
     cors:{
-        origin:"http://localhost:8000",
+        origin:"*",
         methods: ["GET", "POST"]
     }
 })
@@ -33,5 +33,9 @@ io.on('connection', (socket) => {
         io.emit("getOnlineUsers", Object.keys(userSocketMap))
     })
 })
+
+socket.on('connect_error', function(err) {
+    console.log("Errorr", err.message)
+});
 
 export {app, io, server}
