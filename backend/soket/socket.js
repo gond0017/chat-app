@@ -7,11 +7,10 @@ const app = express()
 const server = http.createServer(app)
 const io = new Server(server,{
     cors:{
-        origin:"*",
+        origin: "http://localhost:3000",
         methods: ["GET", "POST"]
     }
 })
-console.log('test')
 export const getReceiverSocketId = (receiverId) =>{
     return userSocketMap[receiverId]
 }
@@ -33,7 +32,6 @@ io.on('connection', (socket) => {
     //io.emit() is used to send events to all the clients
     io.emit("getOnlineUsers", Object.keys(userSocketMap))
 
-   
 })
 
 export {app, io, server}
